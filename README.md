@@ -4,24 +4,24 @@ Temas:
  
 # MazeRun
 
-**Número da Lista**: X<br>
-**Conteúdo da Disciplina**: XXXXXXXXXX<br>
+**Trabalho**: Grafos 1<br>
+**Conteúdo da Disciplina**: Grafos 1<br>
 
 ## Alunos
 |Matrícula | Aluno |
 | -- | -- |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+| 18/0024868  |  Mateus Moreira Lima |
+| 19/0044390  |  Victor Rayan Adriano Ferreira  |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+O algoritmo gera um labirinto aleatório com base em uma DFS e uma BFS utilizando a biblioteca pygame.
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
+**Linguagem**: Python<br>
+**Biblioteca**: Pygame<br>
 Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
 
 ## Uso 

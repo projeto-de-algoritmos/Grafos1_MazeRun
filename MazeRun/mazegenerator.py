@@ -2,23 +2,23 @@ import pygame
 from random import choice
 
 RES = WIDTH, HEIGHT = 1200, 900
-TILE = 50
+TILE = 100
 cols, rows = WIDTH // TILE, HEIGHT // TILE
 
 pygame.init()
 source = pygame.display.set_mode(RES)
 clock = pygame.time.Clock()
 
-
 class Cell:
     def __init__(self, x, y):
         self.x, self.y = x, y
         self.walls = {'top': True, 'right': True, 'bottom': True, 'left': True}
         self.visited = False
+        self.thickness = 4
 
     def draw_current_cell(self):
         x, y = self.x * TILE, self.y * TILE
-        pygame.draw.rect(source,pygame.Color('saddlebrown'),(x+2,y+2,TILE-2,TILE-2))  
+        pygame.draw.rect(source,pygame.Color('saddlebrown'),(x+2,y+2,TILE-2,TILE-2), self.thickness)  
 
     def draw(self):
         x, y = self.x * TILE, self.y * TILE
@@ -26,13 +26,13 @@ class Cell:
             pygame.draw.rect(source,pygame.Color('black'),(x,y,TILE,TILE))
 
         if self.walls['top']:
-            pygame.draw.line(source, pygame.Color('blue'), (x, y), (x + TILE, y), 2)
+            pygame.draw.line(source, pygame.Color('blue'), (x, y), (x + TILE, y), self.thickness)
         if self.walls['right']:
-            pygame.draw.line(source, pygame.Color('blue'), (x + TILE, y), (x + TILE, y + TILE), 2)
+            pygame.draw.line(source, pygame.Color('blue'), (x + TILE, y), (x + TILE, y + TILE), self.thickness)
         if self.walls['bottom']:
-            pygame.draw.line(source, pygame.Color('blue'), (x + TILE, y + TILE), (x , y + TILE), 2)
+            pygame.draw.line(source, pygame.Color('blue'), (x + TILE, y + TILE), (x , y + TILE), self.thickness)
         if self.walls['left']:
-            pygame.draw.line(source, pygame.Color('blue'), (x, y + TILE), (x, y), 2)
+            pygame.draw.line(source, pygame.Color('blue'), (x, y + TILE), (x, y), self.thickness)
 
     def check_cell(self,x,y):
         find_index = lambda x,y : x + y * cols
@@ -55,6 +55,19 @@ class Cell:
         if left and not left.visited:
             neighbors.append(left)
         return choice(neighbors) if neighbors else False
+    
+    def get_rects(self):
+        rects = []
+        x, y = self.x * TILE, self.y * TILE
+        if self.walls['top']:
+            rects.append(pygame.Rect( (x, y), (TILE, self.thickness) ))
+        if self.walls['right']:
+            rects.append(pygame.Rect( (x + TILE, y), (self.thickness, TILE) ))
+        if self.walls['bottom']:
+            rects.append(pygame.Rect( (x, y + TILE), (TILE , self.thickness) ))
+        if self.walls['left']:
+            rects.append(pygame.Rect( (x, y), (self.thickness, TILE) ))
+        return rects
 
 def remove_parede(current, next):
     dx = current.x - next.x
@@ -71,11 +84,34 @@ def remove_parede(current, next):
     elif dy == -1:
         current.walls['bottom'] = False
         next.walls['top'] = False
-                      
+
+def is_collide(x, y):
+    tmp_rect = player_rect.move(x, y)
+    if tmp_rect.collidelist(walls_collide_list) == -1:
+        return False
+    return True                      
 
 grid_cells=[Cell(col,row)for row in range(rows)for col in range(cols)]
 current_cell=grid_cells[0]
 stack=[]
+
+sapo_img = pygame.image.load('images/sapo.png').convert_alpha()
+#rect = sapo_img.get_rect()
+vel = 10
+
+player_img = pygame.transform.scale(sapo_img, (TILE - 5 * grid_cells[0].thickness, TILE - 5 * grid_cells[0].thickness))
+#width = sapo_img.get_width()
+#height = sapo_img.get_height()
+#player_rect = pygame.Rect(5, 5, 15, 15)
+#player_img = pygame.transform.scale(sapo_img, (int(width * 0.3), int(height * 0.3)) )
+player_rect = player_img.get_rect()
+player_rect = player_rect.move(grid_cells[0].thickness + 1, grid_cells[0].thickness + 1)
+
+walls_collide_list = sum([cell.get_rects() for cell in grid_cells], [])
+
+directions = {'a': (-vel, 0), 'd': (vel, 0), 'w': (0, -vel), 's': (0, vel)}
+keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
+direction = (0, 0)
 
 while True:
     source.fill(pygame.Color('darkslategray'))
@@ -96,7 +132,26 @@ while True:
         current_cell = next_cell
     elif stack:
         current_cell = stack.pop() 
+
+    pressed_key = pygame.key.get_pressed()
+    for key, key_value in keys.items():
+        if pressed_key[key_value] and not is_collide(*directions[key]):
+            direction = directions[key]
+            break
+    if not is_collide(*direction):
+        player_rect.move_ip(direction)
+
+    source.blit(player_img, player_rect)
         
-    
+    #userInput = pygame.key.get_pressed()
+    #if userInput[pygame.K_LEFT]:
+    #    rect.x -= vel
+    #if userInput[pygame.K_RIGHT]:
+    #    rect.x += vel
+    #if userInput[pygame.K_UP]:
+    #    rect.y -= vel
+    #if userInput[pygame.K_DOWN]:
+    #    rect.y += vel
+
     pygame.display.flip()
     clock.tick(30)

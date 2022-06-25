@@ -7,7 +7,6 @@ cols, rows = WIDTH // TILE, HEIGHT // TILE
 
 pygame.init()
 source = pygame.display.set_mode(RES)
-clock = pygame.time.Clock()
 
 class Cell:
     def __init__(self, x, y):
@@ -16,15 +15,10 @@ class Cell:
         self.visited = False
         self.thickness = 4
 
-    def draw_current_cell(self):
-        x, y = self.x * TILE, self.y * TILE
-        pygame.draw.rect(source,pygame.Color('saddlebrown'),(x+2,y+2,TILE-2,TILE-2), self.thickness)  
-
     def draw(self):
         x, y = self.x * TILE, self.y * TILE
         if self.visited:
             pygame.draw.rect(source,pygame.Color('black'),(x,y,TILE,TILE))
-
         if self.walls['top']:
             pygame.draw.line(source, pygame.Color('blue'), (x, y), (x + TILE, y), self.thickness)
         if self.walls['right']:
@@ -40,7 +34,8 @@ class Cell:
             return False
         return grid_cells[find_index(x,y)]
 
-    def check_neighbors(self):
+    def check_neighbors(self, grid_cells):
+        self.grid_cells = grid_cells
         neighbors=[]
         top=self.check_cell(self.x,self.y-1)
         right=self.check_cell(self.x+1,self.y)
@@ -96,22 +91,33 @@ current_cell=grid_cells[0]
 stack=[]
 
 sapo_img = pygame.image.load('images/sapo.png').convert_alpha()
-#rect = sapo_img.get_rect()
-vel = 10
+sapo1_img = pygame.image.load('images/sapo_1.png').convert_alpha()
+happy_img = pygame.image.load('images/happy.png').convert_alpha()
+vel = 1
 
-player_img = pygame.transform.scale(sapo_img, (TILE - 5 * grid_cells[0].thickness, TILE - 5 * grid_cells[0].thickness))
-#width = sapo_img.get_width()
-#height = sapo_img.get_height()
-#player_rect = pygame.Rect(5, 5, 15, 15)
-#player_img = pygame.transform.scale(sapo_img, (int(width * 0.3), int(height * 0.3)) )
+player_img = pygame.transform.scale(sapo_img, (TILE - 10 * grid_cells[0].thickness, TILE - 10 * grid_cells[0].thickness))
+perereca_img = pygame.transform.scale(sapo1_img, (TILE - 10 * grid_cells[0].thickness, TILE - 10 * grid_cells[0].thickness))
+happy_img = pygame.transform.scale(happy_img, (TILE - 10 * grid_cells[0].thickness, TILE - 10 * grid_cells[0].thickness))
+
 player_rect = player_img.get_rect()
-player_rect = player_rect.move(grid_cells[0].thickness + 1, grid_cells[0].thickness + 1)
+player_rect.center = TILE // 2, TILE // 2
+
+perereca_rect = perereca_img.get_rect()
+perereca_rect.center = WIDTH-TILE//2, HEIGHT-TILE//2
+
+happy_rect = perereca_img.get_rect()
+happy_rect.center = WIDTH-TILE//2, HEIGHT-TILE//2
+
+sapo_sfx = pygame.mixer.Sound('sfx/parabens.mp3')
+sapo_sfx.set_volume(0.3)
 
 walls_collide_list = sum([cell.get_rects() for cell in grid_cells], [])
+walls_collide_list = []
 
 directions = {'a': (-vel, 0), 'd': (vel, 0), 'w': (0, -vel), 's': (0, vel)}
 keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
 direction = (0, 0)
+flag_sfx = 1
 
 while True:
     source.fill(pygame.Color('darkslategray'))
@@ -119,19 +125,6 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
-
-    [cell.draw() for cell in grid_cells]
-    current_cell.visited=True
-    current_cell.draw_current_cell()
-
-    next_cell = current_cell.check_neighbors()
-    if next_cell:
-        next_cell.visited = True
-        stack.append(current_cell)
-        remove_parede(current_cell, next_cell)
-        current_cell = next_cell
-    elif stack:
-        current_cell = stack.pop() 
 
     pressed_key = pygame.key.get_pressed()
     for key, key_value in keys.items():
@@ -141,17 +134,28 @@ while True:
     if not is_collide(*direction):
         player_rect.move_ip(direction)
 
+    if player_rect.colliderect(perereca_rect) and flag_sfx == 1:
+        sapo_sfx.play()
+        flag_sfx = 0
+
+    [cell.draw() for cell in grid_cells]
+
+    next_cell = current_cell.check_neighbors(grid_cells)
+    if next_cell:
+        next_cell.visited = True
+        stack.append(current_cell)
+        remove_parede(current_cell, next_cell)
+        current_cell = next_cell
+    elif stack:
+        current_cell = stack.pop()
+
+    walls_collide_list = sum([cell.get_rects() for cell in grid_cells], [])
+
     source.blit(player_img, player_rect)
-        
-    #userInput = pygame.key.get_pressed()
-    #if userInput[pygame.K_LEFT]:
-    #    rect.x -= vel
-    #if userInput[pygame.K_RIGHT]:
-    #    rect.x += vel
-    #if userInput[pygame.K_UP]:
-    #    rect.y -= vel
-    #if userInput[pygame.K_DOWN]:
-    #    rect.y += vel
+
+    if flag_sfx == 1:
+        source.blit(perereca_img, perereca_rect)
+    else:
+        source.blit(happy_img, happy_rect)
 
     pygame.display.flip()
-    clock.tick(30)

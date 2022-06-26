@@ -7,6 +7,7 @@ cols, rows = WIDTH // TILE, HEIGHT // TILE
 
 pygame.init()
 source = pygame.display.set_mode(RES)
+pygame.display.set_caption('Maze Run')
 
 class Cell:
     def __init__(self, x, y):

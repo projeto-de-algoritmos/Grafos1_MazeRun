@@ -2,6 +2,7 @@ import pygame
 import button
 import sys
 from button import *
+import controlergamer
 
  
 pygame.init()
@@ -12,7 +13,7 @@ RES1 = WIDTH, HEIGHT = 1200, 900
 screen = pygame.display.set_mode((RES1))
 pygame.display.set_caption('Maze Run')
 
-def get_font(size): # Returns Press-Start-2P in the desired size
+def get_font(size): 
     return pygame.font.Font('assets/font.ttf', size)
 
 def startgame():
@@ -61,7 +62,7 @@ def gameover():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
-                    pass
+                    controlergamer.reiniciar()
                     
                     
 
@@ -89,6 +90,6 @@ def screenWinner():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
-                    pass
+                    controlergamer.reiniciar()
 
         pygame.display.update()

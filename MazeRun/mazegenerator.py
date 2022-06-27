@@ -182,7 +182,6 @@ def desenhar(dificuldade):
 
         if flag_sfx == 1:
             source.blit(perereca_img, perereca_rect)
-            print('entrou')
         else:
             source.blit(happy_img, happy_rect)
             mainScreen.screenWinner()

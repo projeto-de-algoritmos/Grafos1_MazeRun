@@ -115,7 +115,7 @@ def gameover():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
-                    print('entrou')
+                    #print('entrou')
                     controlergamer.callmenu()
                     
                     

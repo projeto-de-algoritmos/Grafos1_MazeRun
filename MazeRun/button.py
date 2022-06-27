@@ -1,5 +1,9 @@
 import pygame
 
+'''
+Classe Button instancia um objeto do tipo button, método draw desenha na tela utilizando surface como parametro.
+'''
+
 class Button():
 	def __init__(self, x, y, image, scale):
 		width = image.get_width()

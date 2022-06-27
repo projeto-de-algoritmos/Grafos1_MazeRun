@@ -2,6 +2,10 @@ import pygame
 from random import choice
 import mainScreen
 
+'''
+Utiliza o algoritmo de grafo DFS para gerar o labirinto e desenhar na tela.
+'''
+
 def desenhar(dificuldade):
     
     RES = WIDTH, HEIGHT = 1200, 900

@@ -4,7 +4,11 @@ import sys
 from button import *
 import controlergamer
 
- 
+'''
+Tela inicial do jogo, instancia o botão start e quit
+'''
+
+
 pygame.init()
 
 RES1 = WIDTH, HEIGHT = 1200, 900

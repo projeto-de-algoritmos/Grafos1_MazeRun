@@ -2,6 +2,9 @@ from mainScreen import *
 from mazegenerator import *
 import mainScreen
 
+'''
+Instancia o programa, chama o menu e os fluxos de execuções das telas.
+'''
 
 def iniciar():
     game = startgame()

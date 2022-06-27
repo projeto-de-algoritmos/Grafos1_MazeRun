@@ -3,6 +3,7 @@ from random import choice
 import mainScreen
 
 def desenhar():
+    
     RES = WIDTH, HEIGHT = 1200, 900
     TILE = 100
     cols, rows = WIDTH // TILE, HEIGHT // TILE
@@ -10,7 +11,7 @@ def desenhar():
     pygame.init()
     source = pygame.display.set_mode(RES)
 
-
+    # Estrutura do Grafo DFS
     class Cell:
         def __init__(self, x, y):
             self.x, self.y = x, y
@@ -35,7 +36,7 @@ def desenhar():
             find_index = lambda x,y : x + y * cols
             if x < 0 or x > cols- 1 or y < 0 or y > rows -1:
                 return False
-            return grid_cells[find_index(x,y)]
+            return self.grid_cells[find_index(x,y)]
 
         def check_neighbors(self, grid_cells):
             self.grid_cells = grid_cells
@@ -88,17 +89,21 @@ def desenhar():
         tmp_rect = player_rect.move(x, y)
         if tmp_rect.collidelist(walls_collide_list) == -1:
             return False
-        return True                      
+        return True
 
+    
     grid_cells=[Cell(col,row)for row in range(rows)for col in range(cols)]
     current_cell=grid_cells[0]
-    stack=[]
+    stack=[] #pilha do dfs
 
+
+    # Carregando Imagens dos jogadores
     sapo_img = pygame.image.load('images/sapo.png').convert_alpha()
     sapo1_img = pygame.image.load('images/sapo_1.png').convert_alpha()
     happy_img = pygame.image.load('images/happy.png').convert_alpha()
-    vel = 1
+    speedPlayer = 2
 
+    # settings do jogador
     player_img = pygame.transform.scale(sapo_img, (TILE - 15 * grid_cells[0].thickness, TILE - 15 * grid_cells[0].thickness))
     perereca_img = pygame.transform.scale(sapo1_img, (TILE - 10 * grid_cells[0].thickness, TILE - 10 * grid_cells[0].thickness))
     happy_img = pygame.transform.scale(happy_img, (TILE - 10 * grid_cells[0].thickness, TILE - 10 * grid_cells[0].thickness))
@@ -118,11 +123,13 @@ def desenhar():
     walls_collide_list = sum([cell.get_rects() for cell in grid_cells], [])
     walls_collide_list = []
 
-    directions = {'a': (-vel, 0), 'd': (vel, 0), 'w': (0, -vel), 's': (0, vel)}
+    directions = {'a': (-speedPlayer, 0), 'd': (speedPlayer, 0), 'w': (0, -speedPlayer), 's': (0, speedPlayer)}
     keys = {'a': pygame.K_a, 'd': pygame.K_d, 'w': pygame.K_w, 's': pygame.K_s}
     direction = (0, 0)
     flag_sfx = 1
 
+
+    #loop principal do jogo
     while True:
         source.fill(pygame.Color('darkslategray'))
 
@@ -130,6 +137,7 @@ def desenhar():
             if event.type == pygame.QUIT:
                 exit()
 
+        # controla movimentos do jogador
         pressed_key = pygame.key.get_pressed()
         for key, key_value in keys.items():
             if pressed_key[key_value] and not is_collide(*directions[key]):
@@ -145,12 +153,16 @@ def desenhar():
         if not is_collide(*direction):
             player_rect.move_ip(direction)
 
+        # adiciona musica do jogo caso o usuario ganhe
         if player_rect.colliderect(perereca_rect) and flag_sfx == 1:
             sapo_sfx.play()
             flag_sfx = 0
 
+        # desenha labirinto
         [cell.draw() for cell in grid_cells]
 
+
+        # empilhando todas as celulas visitadas, escreve todas as células visitadas e se não houver para onde ir, pega o valor das etapas anteriores da pilha
         next_cell = current_cell.check_neighbors(grid_cells)
         if next_cell:
             next_cell.visited = True

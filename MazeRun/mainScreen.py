@@ -13,9 +13,11 @@ RES1 = WIDTH, HEIGHT = 1200, 900
 screen = pygame.display.set_mode((RES1))
 pygame.display.set_caption('Maze Run')
 
+# fonte dos textos da tela
 def get_font(size): 
     return pygame.font.Font('assets/font.ttf', size)
 
+# tela de inicio do jogo
 def startgame():
 
     start_img = pygame.image.load('images/start_btn').convert_alpha()
@@ -27,7 +29,7 @@ def startgame():
     run = True
     while run:
 
-        screen.fill((79, 179, 159))
+        screen.fill("black")
 
         if start_button.draw(screen):
             return True
@@ -40,6 +42,7 @@ def startgame():
 
         pygame.display.update()
  
+# tela de derrota 
 def gameover():
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
@@ -68,6 +71,7 @@ def gameover():
 
         pygame.display.update()
 
+# tela de vitoria do jogo
 def screenWinner():
     while True:
         OPTIONS_MOUSE_POS = pygame.mouse.get_pos()

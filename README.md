@@ -14,18 +14,52 @@ Temas:
 | 19/0044390  |  Victor Rayan Adriano Ferreira  |
 
 ## Sobre 
-O algoritmo gera um labirinto aleatório com base em uma DFS e uma BFS utilizando a biblioteca pygame.
+Nosso trabalho consiste em um labirinto gerado randomicamente por uma DFS (Depth First Search). Para cada posição de célula visitada pelo algoritmo de DFS ele retira 2 paredes aleatórias, gerando um caminho diferente para cada nova rodada.
+
+Maze Croac é um jogo que consiste em Pepa, uma sapinha feliz que tem desejo de ajudar Pepe, um sapinho triste, para isso ela tem que passar por um labirinto mortal, onde todas as paredes são feitas de sal.
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
+![Tela inicial jogo](./MazeRun/assets/telaInicial.png)
+
+![Tela seleção dificuldade](./MazeRun/assets/telaDificuldade.png)
+
+![Tela gameplay](./MazeRun/assets/telaJogo.png)
 
 ## Instalação 
 **Linguagem**: Python<br>
 **Biblioteca**: Pygame<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
 
-## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+Para rodar o jogo é necessário ter python instalado na máquina.
 
-## Outros 
-Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
+Rode o comando a seguir para baixar o pygame:
+```
+$ pip install pygame
+
+ou
+
+$ pip3 install pygame
+```
+
+Para rodar a aplicação certifique se estar dentro da pasta MazeRun:
+
+```
+# Para entrar dentro da pasta MazeRun:
+
+$ cd MazeRun
+
+# Rodar a aplicação:
+
+$ python controlergamer.py
+
+ou
+
+$ python3 controlergamer.py
+```
+
+
+## Uso
+
+1. Selecione o botão de início de jogo.
+2. Selecione a dificuldade.
+3. Utilize as teclas W, A, S, D para se movimentar pela tela.

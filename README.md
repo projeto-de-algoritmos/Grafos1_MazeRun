@@ -19,11 +19,11 @@ Nosso trabalho consiste em um labirinto gerado randomicamente por uma DFS (Depth
 Maze Croac é um jogo que consiste em Pepa, uma sapinha feliz que tem desejo de ajudar Pepe, um sapinho triste, para isso ela tem que passar por um labirinto mortal, onde todas as paredes são feitas de sal.
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+Tela inicial do jogo:
 ![Tela inicial jogo](./MazeRun/assets/telaInicial.png)
-
+Tela de seleção de dificuldade:
 ![Tela seleção dificuldade](./MazeRun/assets/telaDificuldade.png)
-
+Tela de gameplay do jogo:
 ![Tela gameplay](./MazeRun/assets/telaJogo.png)
 
 ## Instalação 
@@ -34,11 +34,11 @@ Para rodar o jogo é necessário ter python instalado na máquina.
 
 Rode o comando a seguir para baixar o pygame:
 ```
-$ pip install pygame
+    $ pip install pygame
 
 ou
 
-$ pip3 install pygame
+    $ pip3 install pygame
 ```
 
 Para rodar a aplicação certifique se estar dentro da pasta MazeRun:
@@ -46,15 +46,15 @@ Para rodar a aplicação certifique se estar dentro da pasta MazeRun:
 ```
 # Para entrar dentro da pasta MazeRun:
 
-$ cd MazeRun
+    $ cd MazeRun
 
 # Rodar a aplicação:
 
-$ python controlergamer.py
+    $ python controlergamer.py
 
 ou
 
-$ python3 controlergamer.py
+    $ python3 controlergamer.py
 ```
 
 

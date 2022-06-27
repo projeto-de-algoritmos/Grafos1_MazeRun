@@ -1,13 +1,25 @@
 from mainScreen import *
 from mazegenerator import *
+import mainScreen
+
 
 def iniciar():
     game = startgame()
     if game == True:
-        desenhar()
+        nivel = menu_principal()
+        if nivel == 1:
+            desenhar(1)
+        else:
+            desenhar(2)    
 
-def reiniciar():
-    desenhar()
+def callmenu():
+    dificuldade = mainScreen.menu_principal()
+    if dificuldade == 1:
+        desenhar(1)
+    else:
+        desenhar(2)
+
 
 if __name__ == '__main__':
     iniciar()
+    

@@ -2,7 +2,7 @@ import pygame
 from random import choice
 import mainScreen
 
-def desenhar():
+def desenhar(dificuldade):
     
     RES = WIDTH, HEIGHT = 1200, 900
     TILE = 100
@@ -101,7 +101,7 @@ def desenhar():
     sapo_img = pygame.image.load('images/sapo.png').convert_alpha()
     sapo1_img = pygame.image.load('images/sapo_1.png').convert_alpha()
     happy_img = pygame.image.load('images/happy.png').convert_alpha()
-    speedPlayer = 2
+    speedPlayer = dificuldade
 
     # settings do jogador
     player_img = pygame.transform.scale(sapo_img, (TILE - 15 * grid_cells[0].thickness, TILE - 15 * grid_cells[0].thickness))

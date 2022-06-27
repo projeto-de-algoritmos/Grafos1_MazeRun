@@ -17,32 +17,78 @@ pygame.display.set_caption('Maze Run')
 def get_font(size): 
     return pygame.font.Font('assets/font.ttf', size)
 
-# tela de inicio do jogo
-def startgame():
-
-    start_img = pygame.image.load('images/start_btn').convert_alpha()
-    exit_img = pygame.image.load('images/exit_btn').convert_alpha()
-
-    start_button = button.Button(100, 200, start_img, 0.8)
-    exit_button = button.Button(450, 200, exit_img, 0.8)
-
-    run = True
-    while run:
-
+def menu_principal():
+    while True:
         screen.fill("black")
 
-        if start_button.draw(screen):
-            return True
-        if exit_button.draw(screen):
-            pygame.event.post(pygame.event.Event(pygame.QUIT))
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
 
+        MENU_TEXT = get_font(100).render("Maze  CROAC", True, "Blue")
+        MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
+
+        PLAY_BUTTON = ButtonScreentwo(image=pygame.image.load("assets/Play Rect.png"), pos=(640, 250), 
+                            text_input="EASY", font=get_font(75), base_color="White", hovering_color="Blue")
+        OPTIONS_BUTTON = ButtonScreentwo(image=pygame.image.load("assets/Options Rect.png"), pos=(640, 400), 
+                            text_input="DIFICIL", font=get_font(75), base_color="White", hovering_color="Blue")
+        QUIT_BUTTON = ButtonScreentwo(image=pygame.image.load("assets/Quit Rect.png"), pos=(640, 550), 
+                            text_input="SAIR", font=get_font(75), base_color="White", hovering_color="Blue")
+
+        screen.blit(MENU_TEXT, MENU_RECT)
+
+        for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(screen)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    return 1
+                if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    return 2
+                if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
 
         pygame.display.update()
- 
-# tela de derrota 
+
+# tela de inicio do jogo
+def startgame():
+    while True:
+        screen.fill("black")
+
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENU_TEXT = get_font(100).render("Maze  CROAC", True, "Blue")
+        MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
+
+        PLAY_BUTTON = ButtonScreentwo(image=pygame.image.load("assets/Play Rect.png"), pos=(640, 250), 
+                            text_input="START", font=get_font(75), base_color="White", hovering_color="Blue")
+        QUIT_BUTTON = ButtonScreentwo(image=pygame.image.load("assets/Quit Rect.png"), pos=(640, 400), 
+                            text_input="SAIR", font=get_font(75), base_color="White", hovering_color="Blue")
+
+        screen.blit(MENU_TEXT, MENU_RECT)
+
+        for button in [PLAY_BUTTON, QUIT_BUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(screen)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    return True
+                if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+
+        pygame.display.update()
+
+# tela de derrota
 def gameover():
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
@@ -65,7 +111,8 @@ def gameover():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
-                    controlergamer.reiniciar()
+                    print('entrou')
+                    controlergamer.callmenu()
                     
                     
 
@@ -84,9 +131,11 @@ def screenWinner():
 
         OPTIONS_BACK = ButtonScreentwo(image=None, pos=(640, 460), 
                             text_input="JOGAR NOVAMENTE", font=get_font(75), base_color="Black", hovering_color="Green")
+                            
 
         OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
         OPTIONS_BACK.update(screen)
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -94,6 +143,6 @@ def screenWinner():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
-                    controlergamer.reiniciar()
+                    controlergamer.callmenu()     
 
         pygame.display.update()

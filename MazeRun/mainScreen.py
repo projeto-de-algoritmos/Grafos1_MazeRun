@@ -49,9 +49,9 @@ def menu_principal():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    return 1
+                    return 1 # dificuldade = facil
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    return 2
+                    return 2 # dificuldade = dificil
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()

@@ -22,7 +22,7 @@ Maze Croac é um jogo que consiste em Pepa, uma sapinha feliz que tem desejo de 
 Tela inicial do jogo:
 ![Tela inicial jogo](./MazeRun/assets/telaInicial.png)
 Tela de seleção de dificuldade:
-![Tela seleção dificuldade](./MazeRun/assets/telaDificuldade.png)
+![Tela seleção dificuldade(A difícil é difícil mesmo.)](./MazeRun/assets/telaDificuldade.png)
 Tela de gameplay do jogo:
 ![Tela gameplay](./MazeRun/assets/telaJogo.png)
 
